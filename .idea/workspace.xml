@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="462c958b-d1b7-494e-a44c-35dbfbf76641" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/account_create_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/account_create_modal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/accounts_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/accounts_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/dashboard_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/dashboard_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/opportunity_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/opportunity_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_account.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_account.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,14 +38,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for test_login.test_import.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for test_login.test_import.executor": "Run",
+    "Python tests.Python tests in test_account.py.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RunManager" selected="Python tests.Python tests in test_account.py">
     <configuration name="Python tests for test_login.test_import" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="salesforce_automation" />
       <option name="ENV_FILES" value="" />
@@ -59,8 +62,24 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests in test_account.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="salesforce_automation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_account.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in test_account.py" />
         <item itemvalue="Python tests.Python tests for test_login.test_import" />
       </list>
     </recent_temporary>
