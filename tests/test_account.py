@@ -3,6 +3,7 @@ from pages.accounts_page import AccountsPage
 from pages.dashboard_page import DashboardPage
 from pages.login_page import LoginPage
 from pages.opportunity_page import Opportunity
+from pages.insuffie_page import InsufficientPrivileges
 import yaml
 
 
@@ -19,10 +20,12 @@ def test_user_success_login(driver):
     account_page = AccountsPage(driver)
     accounts_creationmodal = AccountsCreationModal(driver)
     opportunityaa = Opportunity(driver)
+    insufficient_privilege = InsufficientPrivileges(driver)
 
     login_page.login(config["username"], config["password"])
 
     dashboard_page = DashboardPage(driver)
+    insufficient_privilege.click_here_button()
     dashboard_page.click_remind_me_later()
 
 
@@ -30,12 +33,13 @@ def test_user_success_login(driver):
     account_page.click_second_accounts()
     account_page.click_on_new_button()
 
-    accounts_creationmodal.account_name_textfield("Test10")
+    accounts_creationmodal.account_name_textfield("Saxenas")
     accounts_creationmodal.click_save_button()
 
     account_page.click_second_accounts()
-    account_page.click_account_by_name("Test10")  # Yahan "Test1" badal ke dynamic account name dena hai
+    account_page.click_account_by_name("Saxenas")  # Yahan "Test1" badal ke dynamic account name dena hai
 
     opportunityaa.click_opportunities_button()
-    opportunityaa.click_on_new_button()
-
+    opportunityaa.oppty_name_field("Third")
+    opportunityaa.close_date_picker("10/10/2025")
+    opportunityaa.select_stage_option("Propose")

@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="462c958b-d1b7-494e-a44c-35dbfbf76641" name="Changes" comment="">
+    <list default="true" id="462c958b-d1b7-494e-a44c-35dbfbf76641" name="Changes" comment="includes account creation and oppty">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/account_create_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/account_create_modal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/accounts_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/accounts_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/dashboard_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/dashboard_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/opportunity_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/opportunity_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test_account.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_account.py" afterDir="false" />
     </list>
@@ -27,6 +24,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Rishabhsaxena1993&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Rishabhsaxena1993/salesforce_automation.git&quot;,
+    &quot;accountId&quot;: &quot;804be305-0382-41e9-ad90-1ac6e5cf915c&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -38,14 +47,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests for test_login.test_import.executor": "Run",
-    "Python tests.Python tests in test_account.py.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests for test_login.test_import.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_account.py.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Python tests.Python tests in test_account.py">
     <configuration name="Python tests for test_login.test_import" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="salesforce_automation" />
@@ -100,6 +109,19 @@
       <option name="presentableId" value="Default" />
       <updated>1756641302312</updated>
     </task>
+    <task id="LOCAL-00001" summary="includes account creation and oppty">
+      <option name="closed" value="true" />
+      <created>1756755740523</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1756755740523</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="includes account creation and oppty" />
+    <option name="LAST_COMMIT_MESSAGE" value="includes account creation and oppty" />
   </component>
 </project>
