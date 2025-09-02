@@ -51,4 +51,4 @@ class Opportunity():
             EC.element_to_be_clickable((By.XPATH, option_xpath))
         )
         option_element.click()
-        time.sleep(1)  # Wait for option to be selected, optional
+        time.sleep(2)  # Wait for option to be selected, optional
