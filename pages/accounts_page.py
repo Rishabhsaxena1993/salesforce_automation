@@ -19,9 +19,6 @@ class AccountsPage:
         )
         self.new_button_locator = (By.XPATH, "//div[@title='New']")
 
-        # Agar yeh chahiye toh define karo, warna method se hata do
-        # self.select_account_link_after_account_created = (By.XPATH, "<locator xpath>")
-
     def click_first_accounts(self):
         element = self.wait.until(EC.element_to_be_clickable(self.account_button_locator_1))
         self.driver.execute_script("arguments[0].click();", element)

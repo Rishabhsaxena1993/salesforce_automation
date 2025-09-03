@@ -40,6 +40,9 @@ def test_user_success_login(driver):
     account_page.click_account_by_name("Saxenas")  # Yahan "Test1" badal ke dynamic account name dena hai
 
     opportunityaa.click_opportunities_button()
+    opportunityaa.click_on_new_button()
     opportunityaa.oppty_name_field("Third")
     opportunityaa.close_date_picker("10/10/2025")
     opportunityaa.select_stage_option("Propose")
+    opportunityaa.select_forecast_category_option("Omitted")
+    opportunityaa.save_button_oppty_page()
