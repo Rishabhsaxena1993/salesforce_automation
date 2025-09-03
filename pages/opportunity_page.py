@@ -4,12 +4,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-class Opportunity():
+
+class Opportunity:
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, timeout=10)
         self.opportunities_button = (
-            By.XPATH,  "(//span[@class='slds-truncate slds-m-right--xx-small' and @title='Opportunities'])[1]")
+            By.XPATH, "(//span[@class='slds-truncate slds-m-right--xx-small' and @title='Opportunities'])[1]")
         self.oppty_new_button = (By.XPATH, "//button[contains(@class, 'slds-button') and @name='New' and text()='New']")
         self.oppty_name_input = (By.XPATH, "//input[contains(@id, 'input-') and @name='Name' and @type='text' and "
                                            "contains(@class, 'slds-input')]")
@@ -37,9 +38,9 @@ class Opportunity():
         time.sleep(5)
 
     def close_date_picker(self, date_enter_method):
-         oppty_date = self.wait.until(EC.visibility_of_element_located(self.close_date_locator))
-         oppty_date.send_keys(date_enter_method)
-         time.sleep(3)
+        oppty_date = self.wait.until(EC.visibility_of_element_located(self.close_date_locator))
+        oppty_date.send_keys(date_enter_method)
+        time.sleep(3)
 
     def select_stage_option(self, option_name):
         # Click combobox button to open dropdown (Stage)

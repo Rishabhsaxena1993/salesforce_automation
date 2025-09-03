@@ -1,0 +1,211 @@
+Index: tests/test_account.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from pages.account_create_modal import AccountsCreationModal\r\nfrom pages.accounts_page import AccountsPage\r\nfrom pages.dashboard_page import DashboardPage\r\nfrom pages.login_page import LoginPage\r\nfrom pages.opportunity_page import Opportunity\r\nfrom pages.insuffie_page import InsufficientPrivileges\r\nimport yaml\r\n\r\n\r\ndef get_config():\r\n    with open(\"config/config.yaml\", \"r\") as f:\r\n        return yaml.safe_load(f)\r\n\r\n\r\ndef test_user_success_login(driver):\r\n    config = get_config()\r\n    driver.get(config[\"url\"])\r\n\r\n    login_page = LoginPage(driver)\r\n    account_page = AccountsPage(driver)\r\n    accounts_creationmodal = AccountsCreationModal(driver)\r\n    opportunityaa = Opportunity(driver)\r\n    insufficient_privilege = InsufficientPrivileges(driver)\r\n\r\n    login_page.login(config[\"username\"], config[\"password\"])\r\n\r\n    dashboard_page = DashboardPage(driver)\r\n    insufficient_privilege.click_here_button()\r\n    dashboard_page.click_remind_me_later()\r\n\r\n\r\n    account_page.click_first_accounts()\r\n    account_page.click_second_accounts()\r\n    account_page.click_on_new_button()\r\n\r\n    accounts_creationmodal.account_name_textfield(\"Saxenas\")\r\n    accounts_creationmodal.click_save_button()\r\n\r\n    account_page.click_second_accounts()\r\n    account_page.click_account_by_name(\"Saxenas\")  # Yahan \"Test1\" badal ke dynamic account name dena hai\r\n\r\n    opportunityaa.click_opportunities_button()\r\n    opportunityaa.click_on_new_button()\r\n    opportunityaa.oppty_name_field(\"Third\")\r\n    opportunityaa.close_date_picker(\"10/10/2025\")\r\n    opportunityaa.select_stage_option(\"Propose\")\r\n    opportunityaa.select_forecast_category_option(\"Omitted\")\r\n    opportunityaa.save_button_oppty_page()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tests/test_account.py b/tests/test_account.py
+--- a/tests/test_account.py	(revision c8404c09f4180ada420f14a983898101719a41cf)
++++ b/tests/test_account.py	(date 1756908959247)
+@@ -40,7 +40,6 @@
+     account_page.click_account_by_name("Saxenas")  # Yahan "Test1" badal ke dynamic account name dena hai
+ 
+     opportunityaa.click_opportunities_button()
+-    opportunityaa.click_on_new_button()
+     opportunityaa.oppty_name_field("Third")
+     opportunityaa.close_date_picker("10/10/2025")
+     opportunityaa.select_stage_option("Propose")
+Index: pages/opportunity_page.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import time\r\n\r\nfrom selenium.webdriver.support.ui import WebDriverWait\r\nfrom selenium.webdriver.common.by import By\r\nfrom selenium.webdriver.support import expected_conditions as EC\r\n\r\nclass Opportunity():\r\n    def __init__(self, driver):\r\n        self.driver = driver\r\n        self.wait = WebDriverWait(driver, timeout=10)\r\n        self.opportunities_button = (\r\n            By.XPATH,  \"(//span[@class='slds-truncate slds-m-right--xx-small' and @title='Opportunities'])[1]\")\r\n        self.oppty_new_button = (By.XPATH, \"//button[contains(@class, 'slds-button') and @name='New' and text()='New']\")\r\n        self.oppty_name_input = (By.XPATH, \"//input[contains(@id, 'input-') and @name='Name' and @type='text' and \"\r\n                                           \"contains(@class, 'slds-input')]\")\r\n        self.close_date_locator = (By.XPATH, \"//input[contains(@id, 'input-') and @name='CloseDate' and @type='text']\")\r\n        self.stage_combobox_locator = (By.XPATH, \"//button[contains(@class, 'slds-combobox__input') and \"\r\n                                                 \"@aria-label='Stage']\")\r\n        self.forecast_category_option_locator = (\r\n            By.XPATH, \"//button[contains(@class, 'slds-combobox__input') and @aria-label='Forecast Category']\"\r\n        )\r\n        self.save_button_locator = (By.XPATH, \"//button[@name='SaveEdit']\")\r\n\r\n    def click_opportunities_button(self):\r\n        element = self.wait.until(EC.element_to_be_clickable(self.opportunities_button))\r\n        element.click()\r\n        time.sleep(4)\r\n\r\n    def click_on_new_button(self):\r\n        opptys = self.wait.until(EC.element_to_be_clickable(self.oppty_new_button))\r\n        opptys.click()\r\n        time.sleep(2)\r\n\r\n    def oppty_name_field(self, oppty_name_enter):\r\n        oppty_name = self.wait.until(EC.visibility_of_element_located(self.oppty_name_input))\r\n        oppty_name.send_keys(oppty_name_enter)\r\n        time.sleep(5)\r\n\r\n    def close_date_picker(self, date_enter_method):\r\n         oppty_date = self.wait.until(EC.visibility_of_element_located(self.close_date_locator))\r\n         oppty_date.send_keys(date_enter_method)\r\n         time.sleep(3)\r\n\r\n    def select_stage_option(self, option_name):\r\n        # Click combobox button to open dropdown (Stage)\r\n        stage_combobox = self.wait.until(\r\n            EC.element_to_be_clickable(self.stage_combobox_locator)\r\n        )\r\n        stage_combobox.click()\r\n        time.sleep(5)  # Wait for dropdown animation, optional\r\n\r\n        # Select the desired option from dropdown\r\n        option_xpath = f\"//lightning-base-combobox-item[@data-value='{option_name}']\"\r\n        option_element = self.wait.until(\r\n            EC.element_to_be_clickable((By.XPATH, option_xpath))\r\n        )\r\n        option_element.click()\r\n        time.sleep(5)\r\n\r\n    def select_forecast_category_option(self, option_name):\r\n        forecast_category_button = self.wait.until(EC.element_to_be_clickable(self.forecast_category_option_locator))\r\n        forecast_category_button.click()\r\n        time.sleep(2)  # wait for dropdown animation\r\n        option_xpath = f\"//lightning-base-combobox-item[contains(@class, 'slds-listbox__option_plain') and @data-value='{option_name}']\"\r\n        option_element = self.wait.until(EC.element_to_be_clickable((By.XPATH, option_xpath)))\r\n        option_element.click()\r\n        time.sleep(2)\r\n\r\n    def save_button_oppty_page(self):\r\n        button_save = self.wait.until(EC.element_to_be_clickable(self.save_button_locator))\r\n        button_save.click()\r\n        time.sleep(2)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pages/opportunity_page.py b/pages/opportunity_page.py
+--- a/pages/opportunity_page.py	(revision c8404c09f4180ada420f14a983898101719a41cf)
++++ b/pages/opportunity_page.py	(date 1756919027574)
+@@ -10,16 +10,12 @@
+         self.wait = WebDriverWait(driver, timeout=10)
+         self.opportunities_button = (
+             By.XPATH,  "(//span[@class='slds-truncate slds-m-right--xx-small' and @title='Opportunities'])[1]")
+-        self.oppty_new_button = (By.XPATH, "//button[contains(@class, 'slds-button') and @name='New' and text()='New']")
+-        self.oppty_name_input = (By.XPATH, "//input[contains(@id, 'input-') and @name='Name' and @type='text' and "
+-                                           "contains(@class, 'slds-input')]")
++        self.oppty_name_button = (By.XPATH, "//button[contains(@class, 'slds-button') and @name='New' and text()='New']")
++        self.oppty_name_input = (By.XPATH, "//input[contains(@id, 'input-') and @name='Name' and @type='text' and contains(@class, 'slds-input')]")
+         self.close_date_locator = (By.XPATH, "//input[contains(@id, 'input-') and @name='CloseDate' and @type='text']")
+         self.stage_combobox_locator = (By.XPATH, "//button[contains(@class, 'slds-combobox__input') and "
+                                                  "@aria-label='Stage']")
+-        self.forecast_category_option_locator = (
+-            By.XPATH, "//button[contains(@class, 'slds-combobox__input') and @aria-label='Forecast Category']"
+-        )
+-        self.save_button_locator = (By.XPATH, "//button[@name='SaveEdit']")
++
+ 
+     def click_opportunities_button(self):
+         element = self.wait.until(EC.element_to_be_clickable(self.opportunities_button))
+@@ -27,7 +23,7 @@
+         time.sleep(4)
+ 
+     def click_on_new_button(self):
+-        opptys = self.wait.until(EC.element_to_be_clickable(self.oppty_new_button))
++        opptys = self.wait.until(EC.element_to_be_clickable(self.oppty_name_button))
+         opptys.click()
+         time.sleep(2)
+ 
+@@ -47,7 +43,7 @@
+             EC.element_to_be_clickable(self.stage_combobox_locator)
+         )
+         stage_combobox.click()
+-        time.sleep(5)  # Wait for dropdown animation, optional
++        time.sleep(1)  # Wait for dropdown animation, optional
+ 
+         # Select the desired option from dropdown
+         option_xpath = f"//lightning-base-combobox-item[@data-value='{option_name}']"
+@@ -55,18 +51,7 @@
+             EC.element_to_be_clickable((By.XPATH, option_xpath))
+         )
+         option_element.click()
+-        time.sleep(5)
+-
+-    def select_forecast_category_option(self, option_name):
+-        forecast_category_button = self.wait.until(EC.element_to_be_clickable(self.forecast_category_option_locator))
+-        forecast_category_button.click()
+-        time.sleep(2)  # wait for dropdown animation
+-        option_xpath = f"//lightning-base-combobox-item[contains(@class, 'slds-listbox__option_plain') and @data-value='{option_name}']"
+-        option_element = self.wait.until(EC.element_to_be_clickable((By.XPATH, option_xpath)))
+-        option_element.click()
+-        time.sleep(2)
++        time.sleep(1)  # Wait for option to be selected, optional
++
+ 
+-    def save_button_oppty_page(self):
+-        button_save = self.wait.until(EC.element_to_be_clickable(self.save_button_locator))
+-        button_save.click()
+-        time.sleep(2)
+\ No newline at end of file
++
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"462c958b-d1b7-494e-a44c-35dbfbf76641\" name=\"Changes\" comment=\"corrected bugs\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/pages/accounts_page.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/pages/accounts_page.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/pages/opportunity_page.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/pages/opportunity_page.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/tests/test_account.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/tests/test_account.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;Rishabhsaxena1993&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/Rishabhsaxena1993/salesforce_automation.git&quot;,\r\n    &quot;accountId&quot;: &quot;804be305-0382-41e9-ad90-1ac6e5cf915c&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 6\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"323FMcqtPN9XrDOOoipTj0rMaW6\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"1\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Python tests.Python tests for test_account.test_user_success_login.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python tests.Python tests for test_login.test_import.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python tests.Python tests in test_account.py.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RunManager\" selected=\"Python tests.Python tests for test_account.test_user_success_login\">\r\n    <configuration name=\"Python tests for test_account.test_user_success_login\" type=\"tests\" factoryName=\"Autodetect\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"salesforce_automation\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/tests\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"_new_additionalArguments\" value=\"&quot;&quot;\" />\r\n      <option name=\"_new_target\" value=\"&quot;test_account.test_user_success_login&quot;\" />\r\n      <option name=\"_new_targetType\" value=\"&quot;PYTHON&quot;\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"Python tests for test_login.test_import\" type=\"tests\" factoryName=\"Autodetect\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"salesforce_automation\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/tests\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"_new_additionalArguments\" value=\"&quot;&quot;\" />\r\n      <option name=\"_new_target\" value=\"&quot;test_login.test_import&quot;\" />\r\n      <option name=\"_new_targetType\" value=\"&quot;PYTHON&quot;\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"Python tests in test_account.py\" type=\"tests\" factoryName=\"Autodetect\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"salesforce_automation\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/tests\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"_new_additionalArguments\" value=\"&quot;&quot;\" />\r\n      <option name=\"_new_target\" value=\"&quot;$PROJECT_DIR$/tests/test_account.py&quot;\" />\r\n      <option name=\"_new_targetType\" value=\"&quot;PATH&quot;\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python tests.Python tests for test_account.test_user_success_login\" />\r\n        <item itemvalue=\"Python tests.Python tests in test_account.py\" />\r\n        <item itemvalue=\"Python tests.Python tests for test_login.test_import\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-975db3bf15a3-31b6be0877a2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.18034.82\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"462c958b-d1b7-494e-a44c-35dbfbf76641\" name=\"Changes\" comment=\"\" />\r\n      <created>1756641302312</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1756641302312</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"includes account creation and oppty\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1756755740523</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1756755740523</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"new flow added\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1756821932409</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1756821932409</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"corrected bug\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1756838235333</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1756838235333</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"corrected bug\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1756838258605</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1756838258605</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"5\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"includes account creation and oppty\" />\r\n    <MESSAGE value=\"new flow added\" />\r\n    <MESSAGE value=\"corrected bug\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"corrected bug\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <line-breakpoint enabled=\"true\" suspend=\"THREAD\" type=\"python-line\">\r\n          <url>file://$PROJECT_DIR$/pages/opportunity_page.py</url>\r\n          <line>28</line>\r\n          <option name=\"timeStamp\" value=\"1\" />\r\n        </line-breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision c8404c09f4180ada420f14a983898101719a41cf)
++++ b/.idea/workspace.xml	(date 1756909040248)
+@@ -4,9 +4,8 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="462c958b-d1b7-494e-a44c-35dbfbf76641" name="Changes" comment="corrected bugs">
++    <list default="true" id="462c958b-d1b7-494e-a44c-35dbfbf76641" name="Changes" comment="includes account creation and oppty">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/pages/accounts_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/accounts_page.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/pages/opportunity_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/opportunity_page.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/tests/test_account.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_account.py" afterDir="false" />
+     </list>
+@@ -48,31 +47,15 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;Python tests.Python tests for test_account.test_user_success_login.executor&quot;: &quot;Run&quot;,
+-    &quot;Python tests.Python tests for test_login.test_import.executor&quot;: &quot;Run&quot;,
+-    &quot;Python tests.Python tests in test_account.py.executor&quot;: &quot;Run&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "Python tests.Python tests for test_login.test_import.executor": "Run",
++    "Python tests.Python tests in test_account.py.executor": "Run",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "git-widget-placeholder": "Merging main"
+   }
+-}</component>
+-  <component name="RunManager" selected="Python tests.Python tests for test_account.test_user_success_login">
+-    <configuration name="Python tests for test_account.test_user_success_login" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+-      <module name="salesforce_automation" />
+-      <option name="ENV_FILES" value="" />
+-      <option name="INTERPRETER_OPTIONS" value="" />
+-      <option name="PARENT_ENVS" value="true" />
+-      <option name="SDK_HOME" value="" />
+-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+-      <option name="IS_MODULE_SDK" value="true" />
+-      <option name="ADD_CONTENT_ROOTS" value="true" />
+-      <option name="ADD_SOURCE_ROOTS" value="true" />
+-      <option name="_new_additionalArguments" value="&quot;&quot;" />
+-      <option name="_new_target" value="&quot;test_account.test_user_success_login&quot;" />
+-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+-      <method v="2" />
+-    </configuration>
++}]]></component>
++  <component name="RunManager" selected="Python tests.Python tests in test_account.py">
+     <configuration name="Python tests for test_login.test_import" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+       <module name="salesforce_automation" />
+       <option name="ENV_FILES" value="" />
+@@ -105,7 +88,6 @@
+     </configuration>
+     <recent_temporary>
+       <list>
+-        <item itemvalue="Python tests.Python tests for test_account.test_user_success_login" />
+         <item itemvalue="Python tests.Python tests in test_account.py" />
+         <item itemvalue="Python tests.Python tests for test_login.test_import" />
+       </list>
+@@ -135,48 +117,12 @@
+       <option name="project" value="LOCAL" />
+       <updated>1756755740523</updated>
+     </task>
+-    <task id="LOCAL-00002" summary="new flow added">
+-      <option name="closed" value="true" />
+-      <created>1756821932409</created>
+-      <option name="number" value="00002" />
+-      <option name="presentableId" value="LOCAL-00002" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1756821932409</updated>
+-    </task>
+-    <task id="LOCAL-00003" summary="corrected bug">
+-      <option name="closed" value="true" />
+-      <created>1756838235333</created>
+-      <option name="number" value="00003" />
+-      <option name="presentableId" value="LOCAL-00003" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1756838235333</updated>
+-    </task>
+-    <task id="LOCAL-00004" summary="corrected bug">
+-      <option name="closed" value="true" />
+-      <created>1756838258605</created>
+-      <option name="number" value="00004" />
+-      <option name="presentableId" value="LOCAL-00004" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1756838258605</updated>
+-    </task>
+-    <option name="localTasksCounter" value="5" />
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="includes account creation and oppty" />
+-    <MESSAGE value="new flow added" />
+-    <MESSAGE value="corrected bug" />
+-    <option name="LAST_COMMIT_MESSAGE" value="corrected bug" />
+-  </component>
+-  <component name="XDebuggerManager">
+-    <breakpoint-manager>
+-      <breakpoints>
+-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+-          <url>file://$PROJECT_DIR$/pages/opportunity_page.py</url>
+-          <line>28</line>
+-          <option name="timeStamp" value="1" />
+-        </line-breakpoint>
+-      </breakpoints>
+-    </breakpoint-manager>
++    <MESSAGE value="working E2E flow Account,Oppty" />
++    <option name="LAST_COMMIT_MESSAGE" value="working E2E flow Account,Oppty" />
+   </component>
+ </project>
+\ No newline at end of file
